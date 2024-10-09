@@ -14,9 +14,11 @@ app.get('/scrape-gasoil', async (req, res) => {
   try {
     const response = await axios.get('https://es.investing.com/commodities/london-gas-oil', {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
       },
     });
+
     const html = response.data;
     const $ = cheerio.load(html);
 
@@ -24,12 +26,14 @@ app.get('/scrape-gasoil', async (req, res) => {
     if (!gasoil) {
       throw new Error('No se pudo encontrar el valor de gasoil');
     }
+    
     res.send({ gasoil });
   } catch (error) {
     console.error('Error al obtener gasoil:', error);
     res.status(500).send({ error: 'Error al obtener datos de gasoil', details: error.message });
   }
 });
+
 
 // Ruta para scraping de la gasolina
 app.get('/scrape-gasolina', async (req, res) => {
