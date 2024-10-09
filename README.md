@@ -1,15 +1,18 @@
-# HafesaEnergia
+Descargar el instalador:
 
-This template should help get you started developing with Vue 3 in Vite.
+Ve al sitio web de Node.js.
+Descarga la versión recomendada (LTS) para Windows.
 
-## Recommended IDE Setup
+Ejecutar el instalador:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Abre el archivo .msi descargado y sigue las instrucciones del asistente.
+Asegúrate de marcar la opción que dice "Add to PATH" durante la instalación.
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
+Verificar la instalación:
+Abre una terminal (símbolo del sistema o PowerShell) y ejecuta:
+node -v
+npm -v
+Deberías ver los números de versión de Node.js y npm, respectivamente.
 ## Project Setup
 
 ```sh
@@ -17,13 +20,10 @@ npm install
 ```
 
 ### Compile and Hot-Reload for Development
+```sh
+node server.js
+```
 
 ```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
 ```

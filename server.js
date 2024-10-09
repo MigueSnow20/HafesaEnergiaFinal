@@ -14,23 +14,16 @@ app.get('/scrape-gasoil', async (req, res) => {
   try {
     const response = await axios.get('https://es.investing.com/commodities/london-gas-oil', {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept-Language': 'en-US,en;q=0.9',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
       },
     });
-
     const html = response.data;
     const $ = cheerio.load(html);
 
     const gasoil = $('[data-test="instrument-price-last"]').first().text().trim();
-    if (!gasoil) {
-      throw new Error('No se pudo encontrar el valor de gasoil');
-    }
-    
     res.send({ gasoil });
   } catch (error) {
-    console.error('Error al obtener gasoil:', error);
-    res.status(500).send({ error: 'Error al obtener datos de gasoil', details: error.message });
+    res.status(500).send('Error al obtener datos de gasoil');
   }
 });
 
@@ -46,14 +39,9 @@ app.get('/scrape-gasolina', async (req, res) => {
     const $ = cheerio.load(html);
 
     const gasolina = $('[data-test="instrument-price-last"]').first().text().trim();
-    if (!gasolina) {
-      throw new Error('No se pudo encontrar el valor de gasolina');
-    }
-    
     res.send({ gasolina });
   } catch (error) {
-    console.error('Error al obtener gasolina:', error);
-    res.status(500).send({ error: 'Error al obtener datos de gasolina', details: error.message });
+    res.status(500).send('Error al obtener datos de gasolina');
   }
 });
 
@@ -69,18 +57,13 @@ app.get('/scrape-tipo-cambio', async (req, res) => {
     const $ = cheerio.load(html);
 
     const tipoCambio = $('[data-test="instrument-price-last"]').first().text().trim();
-    if (!tipoCambio) {
-      throw new Error('No se pudo encontrar el tipo de cambio');
-    }
-    
     res.send({ tipoCambio });
   } catch (error) {
-    console.error('Error al obtener el tipo de cambio:', error);
-    res.status(500).send({ error: 'Error al obtener el tipo de cambio', details: error.message });
+    res.status(500).send('Error al obtener el tipo de cambio');
   }
 });
 
-// Iniciar el servidor en el puerto proporcionado
+// Iniciar el servidor en el puerto definido
 app.listen(port, () => {
   console.log(`Servidor proxy corriendo en http://localhost:${port}`);
 });
