@@ -34,7 +34,6 @@ app.get('/scrape-gasoil', async (req, res) => {
   }
 });
 
-
 // Ruta para scraping de la gasolina
 app.get('/scrape-gasolina', async (req, res) => {
   try {
@@ -47,9 +46,14 @@ app.get('/scrape-gasolina', async (req, res) => {
     const $ = cheerio.load(html);
 
     const gasolina = $('[data-test="instrument-price-last"]').first().text().trim();
+    if (!gasolina) {
+      throw new Error('No se pudo encontrar el valor de gasolina');
+    }
+    
     res.send({ gasolina });
   } catch (error) {
-    res.status(500).send('Error al obtener datos de gasolina');
+    console.error('Error al obtener gasolina:', error);
+    res.status(500).send({ error: 'Error al obtener datos de gasolina', details: error.message });
   }
 });
 
@@ -65,9 +69,14 @@ app.get('/scrape-tipo-cambio', async (req, res) => {
     const $ = cheerio.load(html);
 
     const tipoCambio = $('[data-test="instrument-price-last"]').first().text().trim();
+    if (!tipoCambio) {
+      throw new Error('No se pudo encontrar el tipo de cambio');
+    }
+    
     res.send({ tipoCambio });
   } catch (error) {
-    res.status(500).send('Error al obtener el tipo de cambio');
+    console.error('Error al obtener el tipo de cambio:', error);
+    res.status(500).send({ error: 'Error al obtener el tipo de cambio', details: error.message });
   }
 });
 
