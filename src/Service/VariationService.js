@@ -1,11 +1,9 @@
 import axios from 'axios'; // Usamos axios para hacer las solicitudes al proxy
 
 export default class VariationsService {
-
-  // Endpoint para obtener los datos del gasoil a través del servidor proxy
   async getGasoilScraped() {
     try {
-      const response = await axios.get('http://localhost:3000/scrape-gasoil');
+      const response = await axios.get('https://hafesaenergia-b32c238c5efa.herokuapp.com/scrape-gasoil');
       const gasoil = parseFloat(response.data.gasoil.replace(',', '.'));
       return gasoil;
     } catch (error) {
@@ -14,12 +12,10 @@ export default class VariationsService {
     }
   }
 
-  // Endpoint para obtener los datos de la gasolina a través del servidor proxy
   async getGasolinaScraped() {
     try {
-      const response = await axios.get('http://localhost:3000/scrape-gasolina');
+      const response = await axios.get('https://hafesaenergia-b32c238c5efa.herokuapp.com/scrape-gasolina');
       const gasolina = parseFloat(response.data.gasolina.replace(',', '.'));
-      console.log('Gasolina parsed:', gasolina); // Verifica la conversión
       return gasolina;
     } catch (error) {
       console.error('Error al obtener la gasolina desde el proxy:', error);
@@ -27,10 +23,9 @@ export default class VariationsService {
     }
   }
 
-  // Endpoint para obtener los datos del tipo de cambio EUR/USD a través del servidor proxy
   async getTipoDeCambio() {
     try {
-      const response = await axios.get('http://localhost:3000/scrape-tipo-cambio');
+      const response = await axios.get('https://hafesaenergia-b32c238c5efa.herokuapp.com/scrape-tipo-cambio');
       const tipoCambio = parseFloat(response.data.tipoCambio.replace(',', '.'));
       return tipoCambio;
     } catch (error) {

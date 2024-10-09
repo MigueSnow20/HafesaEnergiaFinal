@@ -1,10 +1,10 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
-import * as cheerio from 'cheerio'; // Usamos cheerio para el scraping
+import * as cheerio from 'cheerio';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Usa el puerto proporcionado por Heroku o 3000 localmente
 
 // Habilitar CORS para todas las rutas
 app.use(cors());
@@ -20,7 +20,6 @@ app.get('/scrape-gasoil', async (req, res) => {
     const html = response.data;
     const $ = cheerio.load(html);
 
-    // Obtener el valor de gasoil del HTML
     const gasoil = $('[data-test="instrument-price-last"]').first().text().trim();
     res.send({ gasoil });
   } catch (error) {
@@ -39,7 +38,6 @@ app.get('/scrape-gasolina', async (req, res) => {
     const html = response.data;
     const $ = cheerio.load(html);
 
-    // Obtener el valor de gasolina del HTML
     const gasolina = $('[data-test="instrument-price-last"]').first().text().trim();
     res.send({ gasolina });
   } catch (error) {
@@ -58,7 +56,6 @@ app.get('/scrape-tipo-cambio', async (req, res) => {
     const html = response.data;
     const $ = cheerio.load(html);
 
-    // Obtener el valor del tipo de cambio EUR/USD del HTML
     const tipoCambio = $('[data-test="instrument-price-last"]').first().text().trim();
     res.send({ tipoCambio });
   } catch (error) {
@@ -66,7 +63,7 @@ app.get('/scrape-tipo-cambio', async (req, res) => {
   }
 });
 
-// Iniciar el servidor en el puerto 3000
+// Iniciar el servidor en el puerto definido
 app.listen(port, () => {
   console.log(`Servidor proxy corriendo en http://localhost:${port}`);
 });
