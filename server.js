@@ -21,9 +21,13 @@ app.get('/scrape-gasoil', async (req, res) => {
     const $ = cheerio.load(html);
 
     const gasoil = $('[data-test="instrument-price-last"]').first().text().trim();
+    if (!gasoil) {
+      throw new Error('No se pudo encontrar el valor de gasoil');
+    }
     res.send({ gasoil });
   } catch (error) {
-    res.status(500).send('Error al obtener datos de gasoil');
+    console.error('Error al obtener gasoil:', error);
+    res.status(500).send({ error: 'Error al obtener datos de gasoil', details: error.message });
   }
 });
 
