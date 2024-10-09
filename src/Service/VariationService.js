@@ -1,40 +1,58 @@
-import axios from 'axios'; // Usamos axios para hacer las solicitudes al proxy
+import axios from 'axios'; // Usamos axios para hacer las solicitudes
+import * as cheerio from 'cheerio'; // Usamos cheerio para el scraping
 
 export default class VariationsService {
-
-  // Endpoint para obtener los datos del gasoil a través del servidor proxy
+  
+  // Método para obtener datos del gasoil
   async getGasoilScraped() {
     try {
-      const response = await axios.get('http://localhost:3000/scrape-gasoil');
-      const gasoil = parseFloat(response.data.gasoil.replace(',', '.'));
-      return gasoil;
+      const response = await axios.get('https://es.investing.com/commodities/london-gas-oil', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+        },
+      });
+      const html = response.data;
+      const $ = cheerio.load(html);
+      const gasoil = $('[data-test="instrument-price-last"]').first().text().trim();
+      return parseFloat(gasoil.replace(',', '.')); // Asegúrate de que el valor se devuelva como número
     } catch (error) {
-      console.error('Error al obtener el gasoil desde el proxy:', error);
-      throw error;
+      console.error('Error al obtener el gasoil:', error);
+      throw error; // Lanza el error para que pueda ser manejado en el frontend
     }
   }
 
-  // Endpoint para obtener los datos de la gasolina a través del servidor proxy
+  // Método para obtener datos de la gasolina
   async getGasolinaScraped() {
     try {
-      const response = await axios.get('http://localhost:3000/scrape-gasolina');
-      const gasolina = parseFloat(response.data.gasolina.replace(',', '.'));
-      console.log('Gasolina parsed:', gasolina); // Verifica la conversión
-      return gasolina;
+      const response = await axios.get('https://es.investing.com/commodities/gasoline-rbob', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+        },
+      });
+      const html = response.data;
+      const $ = cheerio.load(html);
+      const gasolina = $('[data-test="instrument-price-last"]').first().text().trim();
+      return parseFloat(gasolina.replace(',', '.'));
     } catch (error) {
-      console.error('Error al obtener la gasolina desde el proxy:', error);
+      console.error('Error al obtener la gasolina:', error);
       throw error;
     }
   }
 
-  // Endpoint para obtener los datos del tipo de cambio EUR/USD a través del servidor proxy
+  // Método para obtener el tipo de cambio EUR/USD
   async getTipoDeCambio() {
     try {
-      const response = await axios.get('http://localhost:3000/scrape-tipo-cambio');
-      const tipoCambio = parseFloat(response.data.tipoCambio.replace(',', '.'));
-      return tipoCambio;
+      const response = await axios.get('https://es.investing.com/currencies/eur-usd', {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
+        },
+      });
+      const html = response.data;
+      const $ = cheerio.load(html);
+      const tipoCambio = $('[data-test="instrument-price-last"]').first().text().trim();
+      return parseFloat(tipoCambio.replace(',', '.'));
     } catch (error) {
-      console.error('Error al obtener el tipo de cambio desde el proxy:', error);
+      console.error('Error al obtener el tipo de cambio:', error);
       throw error;
     }
   }
@@ -42,7 +60,6 @@ export default class VariationsService {
   // Método que realiza todas las operaciones y cálculos
   async getAllData({ platts, ice, rbob, tcambio }) {
     try {
-      // Obtener valores actualizados desde el formulario o usar valores por defecto
       platts = platts || 716.75;
       ice = ice || 712.50;
       rbob = rbob || 2.10;
@@ -78,8 +95,9 @@ export default class VariationsService {
         rbob: parseFloat(rbob.toFixed(4)),
         tipoCambio: parseFloat(tcambio.toFixed(4)),
         gasoilScraped: parseFloat(gasoil.toFixed(2)),
-        gasolinaScraped: parseFloat(gasolina.toFixed(4))
+        gasolinaScraped: parseFloat(gasolina.toFixed(4)),
       };
+
       // Devolver los resultados
       return resultado;
     } catch (error) {
