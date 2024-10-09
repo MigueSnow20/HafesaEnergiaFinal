@@ -63,7 +63,7 @@ app.get('/scrape-tipo-cambio', async (req, res) => {
   }
 });
 
-// Iniciar el servidor en el puerto definido
+// Iniciar el servidor en el puerto proporcionado
 app.listen(port, () => {
   console.log(`Servidor proxy corriendo en http://localhost:${port}`);
 });
