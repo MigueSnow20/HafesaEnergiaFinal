@@ -3,12 +3,7 @@
     <div class="navbar-logo">
       <img :src="logoSrc" alt="Logo" class="logo">
     </div>
-    <ul class="navbar-menu">
-      <li class="navbar-item"><a href="#">Home</a></li>
-      <li class="navbar-item"><a href="#">About</a></li>
-      <li class="navbar-item"><a href="#">Services</a></li>
-      <li class="navbar-item"><a href="#">Contact</a></li>
-    </ul>
+
   </nav>
 </template>
 

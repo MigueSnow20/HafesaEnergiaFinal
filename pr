@@ -1,0 +1,29 @@
+.navbar {
+  background-color: #5b4d6e;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  height: 80px; /* Aumenta la altura aquí */
+  display: flex;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.navbar img {
+  vertical-align: middle;
+}
+
+/* Ajustes para hacer la barra de navegación responsive */
+@media (max-width: 768px) {
+  .navbar {
+    height: auto; /* Permitir que la altura se ajuste automáticamente en dispositivos móviles */
+    padding: 0.5rem; /* Ajustar el relleno en dispositivos móviles */
+  }
+}
+
+body {
+  margin-top: 4rem; /* Ajuste para evitar que el contenido quede debajo de la barra de navegación */
+}
